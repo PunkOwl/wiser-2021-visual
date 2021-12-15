@@ -1,7 +1,7 @@
 let wiserTubes = function(p) {
     // https://openprocessing.org/sketch/47364
     const widthX = 1280;
-    const heightX = 920;
+    const heightX = 720;
 
     let imageScale = 0.0;
     let dotDensity = 0.12;
@@ -11,13 +11,13 @@ let wiserTubes = function(p) {
 
     let damping = 0.6;
     let kRadiusFactor = 0.55;
-    let kSpeed = 5.0;
-    let minDistFactor = 1.2;
-    let nbrParticles = 2500;
+    let kSpeed = 2.0;
+    let minDistFactor = 3.9;
+    let nbrParticles = 4500;
 
-    let catSpeed = 2;
+    let catSpeed = 3;
     let reference = null;
-    let nbrCatFrames = 5;
+    let nbrCatFrames = 1;
 
     let cats = [];
     let particles = [];
@@ -30,7 +30,7 @@ let wiserTubes = function(p) {
             this.y = _y;
             this.vx = 0;
             this.vy = 0;
-            this.rad = 1;
+            this.rad = 0.1;
             this.fx = 0;
             this.fy = 0;
             this.wt = 0;

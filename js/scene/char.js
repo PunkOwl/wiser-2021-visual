@@ -1,12 +1,17 @@
 let wiserChar = function(p) {
     const widthX = 1280;
-    const heightX = 920;
+    const heightX = 720;
+    const maxSum = 99900;
+    const minSum = 35000;
+    const maxRadius = 25;
+    const minRadius = 10;
+    let scaleUnit = 1;
 
     let mic;
     let fft;
 
     var capture;
-    var radius = 20;
+    var radius = minRadius;
     var imgCache;
     let overAllTexture;
 
@@ -31,6 +36,7 @@ let wiserChar = function(p) {
             }
         }
         overAllTexture.updatePixels();
+        scaleUnit = maxRadius / (maxSum - minSum);
         
         // ====== audio input ====== //
         fft = new p5.FFT();
@@ -42,7 +48,8 @@ let wiserChar = function(p) {
     let mode = 2;
 
     p.draw = function() {
-        // loadImage(capture)
+        // loadImage(capture);
+
         p.background(0);
         imgCache.image(capture,0,0,widthX,heightX);
     
@@ -51,8 +58,8 @@ let wiserChar = function(p) {
         p.scale(1);
         
         // mouseX indicator 
-        radius = p.max(p.mouseX,0)/10+20;
-        console.log(radius);
+        // radius = p.max(p.mouseX,0)/10+20;
+        // console.log(radius);
 
         // audio indicator
         let spectrum = fft.analyze();
@@ -60,14 +67,18 @@ let wiserChar = function(p) {
         for(let i = 0; i< spectrum.length; i++) {
             sum += spectrum[i];
         }
-        sum -= 100000;
+        sum -= minSum;
         console.log(sum);
 
         if(sum < 0) {
-            radius = 20;
+            radius = 0;
+        } else if(sum > maxSum - minSum) {
+            radius = maxRadius;
         } else {
-            radius = sum * 0.0005;
+            radius = sum * scaleUnit;
         }
+
+        radius += minRadius;
 
         for(var y=0;y<imgCache.height;y+=radius){
             for(var x=0;x<imgCache.width;x+=radius){
@@ -122,6 +133,19 @@ let wiserChar = function(p) {
         }
         if (p.key=="3"){
             mode = 3;
+        }
+
+        // Chrome
+        if (p.key == "S" || p.key == "s") {
+            console.log('AA');
+            console.log(p.getAudioContext().state);
+            if (p.getAudioContext().state !== 'running') {
+                p.getAudioContext().resume();
+                p.userStartAudio();
+                mic.start();
+                fft.setInput(mic);
+                console.log("resumed");
+            }
         }
     }
 }

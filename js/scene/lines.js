@@ -1,6 +1,6 @@
 let wiserLines = function(p) {
     const widthX = 1280;
-    const heightX = 920;
+    const heightX = 720;
 
     let img;
     let imgCache;

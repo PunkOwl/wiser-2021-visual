@@ -1,6 +1,6 @@
 let wiserFFT = function(p) {
     const widthX = 1280;
-    const heightX = 920;
+    const heightX = 720;
     let mic;
     let fft;
 
@@ -14,7 +14,7 @@ let wiserFFT = function(p) {
     }
 
     p.draw = function() {
-        p.background(220);
+        p.background(0);
 
         let spectrum = fft.analyze();
         p.noStroke();
@@ -37,5 +37,20 @@ let wiserFFT = function(p) {
         p.endShape();
 
         // text('tap to play', 20, 20);
+    }
+
+    p.keyPressed = function() {
+        // Chrome
+        if (p.key == "S" || p.key == "s") {
+            console.log('AA');
+            console.log(p.getAudioContext().state);
+            if (p.getAudioContext().state !== 'running') {
+                p.getAudioContext().resume();
+                p.userStartAudio();
+                mic.start();
+                fft.setInput(mic);
+                console.log("resumed");
+            }
+        }
     }
 }
