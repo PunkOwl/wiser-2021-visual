@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta author="vonqo"/>
+        <meta charset="utf-8"/>
+        <title>wiser.studio - Generative</title>
+        <script src="js/p5/p5.min.js"></script>
+        <script src="js/p5/addons/p5.sound.min.js"></script>
+        <script src="js/scene/lines.js"></script>
+        <script src="js/scene/tubes.js"></script>
+        <script src="js/scene/fft.js"></script>
+        <script src="js/scene/char.js"></script>
+        <style>
+            body {
+                background-color: black;
+                margin: 0px;
+            }
+            canvas {
+                /* width: 100% !important;
+                height: 100% !important; */
+            }
+            .center {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="center">
+            <div id="canvas-container"></div>
+        </div>
+        <script>
+            var canvasBuffer;
+
+            window.addEventListener('keyup', onKeyUp, true);
+            
+            function onKeyUp(event) {
+                console.log(event.code);
+                console.log(event.keyCode);
+                
+                // key 'Q'
+                if(event.keyCode == 81) {
+                    clear();
+                    canvasBuffer = new p5(wiserLines, window.document.getElementById("canvas-container"));
+                }
+                
+                // key 'W'
+                else if(event.keyCode == 87) {
+                    clear();
+                    canvasBuffer = new p5(wiserTubes, window.document.getElementById("canvas-container"));
+                }
+                
+                // key 'E'
+                else if(event.keyCode == 69) {
+                    clear();
+                    canvasBuffer = new p5(wiserChar, window.document.getElementById("canvas-container"));
+                }
+                
+                // key 'R'
+                else if(event.keyCode == 82) {
+                    clear();
+                    canvasBuffer = new p5(wiserFFT, window.document.getElementById("canvas-container"));
+                }
+            }
+
+            function clear() {
+                if(canvasBuffer !== undefined) {
+                    canvasBuffer.remove();
+                }
+            }
+        </script>
+    </body>
+</html>
