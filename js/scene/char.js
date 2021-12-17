@@ -1,9 +1,9 @@
 let wiserChar = function(p) {
     const widthX = 1280;
     const heightX = 720;
-    const maxSum = 99900;
+    const maxSum = 150000;
     const minSum = 35000;
-    const maxRadius = 25;
+    const maxRadius = 30;
     const minRadius = 10;
     let scaleUnit = 1;
 
@@ -68,7 +68,6 @@ let wiserChar = function(p) {
             sum += spectrum[i];
         }
         sum -= minSum;
-        console.log(sum);
 
         if(sum < 0) {
             radius = 0;

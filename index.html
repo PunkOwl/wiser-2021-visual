@@ -9,6 +9,7 @@
         <script src="js/scene/tubes.js"></script>
         <script src="js/scene/fft.js"></script>
         <script src="js/scene/char.js"></script>
+        <script src="js/scene/reverse.js"></script>
         <style>
             body {
                 background-color: black;
@@ -23,13 +24,23 @@
                 align-items: center;
                 justify-content: center;
             }
+            #logo {
+                position: absolute;
+                right: 0px;
+                bottom: 40px;
+            }
         </style>
     </head>
     <body>
         <!-- <div class="center">
             <div id="canvas-container"></div>
         </div> -->
+        <div id="logo">
+            <img src="img/logo.png" width="500"/> 
+        </div>
         <div id="canvas-container"></div>
+        
+        
         <script>
             var canvasBuffer;
 
@@ -48,7 +59,8 @@
                 // key 'W'
                 else if(event.keyCode == 87) {
                     clear();
-                    canvasBuffer = new p5(wiserTubes, window.document.getElementById("canvas-container"));
+                    canvasBuffer = new p5(wiserReverse, window.document.getElementById("canvas-container")); 
+                    // canvasBuffer = new p5(wiserTubes, window.document.getElementById("canvas-container"));
                 }
                 
                 // key 'E'

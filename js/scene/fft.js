@@ -1,10 +1,15 @@
 let wiserFFT = function(p) {
     const widthX = 1280;
-    const heightX = 720;
+    const heightX = 720; // can't exceed 1024
     let mic;
     let fft;
 
+    let spectrumMatrix;
+    const spectrumScale = 1;
+    let matrixIndicator = 0;
+
     p.setup = function() {
+        spectrumMatrix = new Array(widthX).fill(0).map(() => new Array(heightX).fill(0));
         p.createCanvas(widthX, heightX);
         p.background(0);
         fft = new p5.FFT();
@@ -14,29 +19,27 @@ let wiserFFT = function(p) {
     }
 
     p.draw = function() {
-        p.background(0);
+        p.background(0);   
 
         let spectrum = fft.analyze();
-        p.noStroke();
-        p.fill(255, 0, 255);
-        for (let i = 0; i< spectrum.length; i++){
-            let x = p.map(i, 0, spectrum.length, 0, p.width);
-            let h = -p.height + p.map(spectrum[i], 0, 255, p.height, 0);
-            p.rect(x, p.height, p.width / spectrum.length, h )
+        spectrumMatrix[matrixIndicator] = (spectrum);
+        
+        if(matrixIndicator == widthX) {
+            matrixIndicator--;
+            shiftMatrix();
+        } else {
+            matrixIndicator++;
         }
+        
 
-        let waveform = fft.waveform();
-        p.noFill();
-        p.beginShape();
-        p.stroke(20);
-        for (let i = 0; i < waveform.length; i++){
-            let x = p.map(i, 0, waveform.length, 0, p.width);
-            let y = p.map( waveform[i], -1, 1, 0, p.height);
-            p.vertex(x,y);
+        for(let cx = 0; cx < spectrumMatrix.length; cx++) {
+            for(let cy = 0; cy < heightX; cy++) {
+                let colorValue = spectrumMatrix[cx][cy] * spectrumScale;
+                p.set(cx, cy, p.color(colorValue, colorValue, colorValue));
+            }
         }
-        p.endShape();
-
-        // text('tap to play', 20, 20);
+        
+        p.updatePixels();
     }
 
     p.keyPressed = function() {
@@ -51,6 +54,12 @@ let wiserFFT = function(p) {
                 fft.setInput(mic);
                 console.log("resumed");
             }
+        }
+    }
+
+    function shiftMatrix() {
+        for(let i = 1; i < spectrumMatrix.length; i++) {
+            spectrumMatrix[i-1] = spectrumMatrix[i];
         }
     }
 }
